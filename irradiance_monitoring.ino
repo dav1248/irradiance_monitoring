@@ -275,7 +275,7 @@ void UI_management(){
 
 // returns the irradiance of the current sample in W/m2
 double irradiance(double current) {
-  return current * stc_irradiance / stc_current;
+  return current * stc_irradiance / isc_current;
 }
 
 // returns the energy of the current interval in Wh

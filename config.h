@@ -6,7 +6,7 @@
 /************************* System *********************************/
 #define vbat A7
 const int sampling_interval = 4000;
-const double stc_current= 0.72; // Amps
+const double isc_current= 0.72; // Amps
 const double stc_irradiance = 1000; // Watts per m2 
 const double RshuntPV1=1; // Shunt Resistance for current meas. of PV module [Ohm]
 const double RshuntPV2=1; // Shunt Resistance for current meas. of Loads [Ohm]
