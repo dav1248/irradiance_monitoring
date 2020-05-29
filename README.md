@@ -5,13 +5,21 @@ Offline Irradiance Monitoring System working on Adafruit M0 Feather. The system 
 * Adafruit Adalogger RTC
 * Adafruit OLED display
 * 2x 4Wp mono-si module (to measure short-circuit current)
-* 1x 1 Ohm (5W) shunt resistor (to measure short-circuit current)
+* 2x 1 Ohm (5W) shunt resistor (to measure short-circuit current)
 * 1x lipo battery (to power the system)
 * 1x 15Wp mono-si module (to power the system)
 * 1x buck converter
 
-![IMS](/images/ims.jpg)
 
+<img src="/images/ims.jpg" width="300" height="450">
+<!---
+![IMS](/images/ims.jpg)
+-->
+
+The system is able to log daily irradiance values as time series, while going to deep sleep at night. Without a PV power supply, the system should last around 4 to 5 days with a 2000mAh battery.
+
+
+---
 
 ## How to build
 
@@ -19,8 +27,19 @@ The principle of the monitoring system is very simple, and unlike the monitoring
 
 ![Schema](/images/schema_irr.png)
 
-list of components
-IMAGE OF CIRCUIT
+The system uses the two 4W PV modules as the source of measurement (thus allowing for redundancy in case of data incoherence on one of the modules). 
+
+1. Each module is wired in parallel with a 1 Ohm, 5W resistor. The positive side of the module is connected to A0, and the negative side  to A1 for the first module, and (A2, A3) for the second one respectively.
+2. The negative side of each module is also wired to the uC GND, to get a common ground and avoid floating voltage.
+3. The 15W power supply module is plugged into the buck converter, itself connected via USD to the uC.
+4. The battery is plugged into the corresponding JST port of the uC.
+
+![IMS](/images/irradiance_monitoring_circuit.png)
+*Above is an illustrative diagram of the wiring (only relevant parts have been shown)*
+
+I put everything into a waterproof plastic case, and built a support for the modules as you can see in the first picture.
+
+---
 
 ## Code walkthrough
 
@@ -34,14 +53,17 @@ The *config.h* contains a few parameters that will influence the monitoring:
 
 **sampling_interval**: defines the rate of sampling and logging to SD card. A 4s sampling rate offers good balance between accuracy and reasonable file length, especially when using Excel.
 
-**isc_current**: the short-circuit current of the PV module
+**isc_current**: the short-circuit current of the PV module. Should verify this value with a multimeter.
 
 **RshuntPV1** and **RshuntPV2**: the value of the shunt resistors.
 
-#### other parameters
+**wakeupHour** and **sleepHour**: hours that define wake up and sleeping time of the monitoring system.
+
+
 
 #### setup()
 
+Nothing really relevant, maybe the initialisation of the SD card reader: the code looks at existing log files and creates a new one with an incremented number, before opening it to insert the headers.
 
 #### loop()
 
@@ -55,7 +77,7 @@ For each loop, the program will check if the current time is inside the sleep wi
 
 By using *millis()* as our main time management tool, we can therefore achieve a seemingly uninterrupted program that updates in real time the values into the SD card and on the OLED display while listening for buttons inputs.
 
-
+---
 
 ## Code Libraries
 
@@ -64,3 +86,18 @@ The following libraries are needed (just type the name in the Arduino IDE under 
 * RTClib (RTC module)
 * Adafruit SleepyDog
 * Adafruit SSD1306 (OLED Display)
+
+
+--- 
+## Output file
+
+a .TSV file (tab-separated file) with each rown containing date, time, irradiance from module 1 and 2, battery SoC, and various other parameters. You can use the Excel template to get a good quick look of the obtained data, just copy-paste the relevant columns into the template.
+
+The obtained power logged as P1 and P2 is the irradiance in [W/m2] computed based on the short circuit current **Isc** as a linear relationship between module current and sun irradiance. Thus, if Isc varies from the rating of the module at STC (1000W/m2, 25°C), You have to make sure to apply a coefficient to the obtained data.
+
+
+--- 
+## Note on results
+
+It is good to take into account some collection losses due to shadowing at low sun angles and MP voltage drop due to temperature. I tried to calibrate mine and compare with satellite irradiance values of [Solcast](https://www.solcast.com).
+I am taking 7% losses due to shading and 3% du to temperature losses, for a total of 10%.
