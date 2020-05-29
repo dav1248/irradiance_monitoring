@@ -27,7 +27,7 @@ The principle of the monitoring system is very simple, and unlike the monitoring
 
 ![Schema](/images/schema_irr.png)
 
-The system uses the two 4W PV modules as the source of measurement (thus allowing for redundancy in case of data incoherence on one of the modules). 
+The system uses the two 4W PV modules as the source of measurement (thus allowing for redundancy in case of data incoherence on one of the modules). It measures the current created by the module and going through the 1 Ohm resistor. This current is very close to the short-circuit current and hence if we know the short circuit current at STC (1000W/m2, 25°C), we can deduce the irradiance at any time since Isc is proportional to the irradiance present at the module surface.
 
 1. Each module is wired in parallel with a 1 Ohm, 5W resistor. The positive side of the module is connected to A0, and the negative side  to A1 for the first module, and (A2, A3) for the second one respectively.
 2. The negative side of each module is also wired to the uC GND, to get a common ground and avoid floating voltage.
@@ -91,9 +91,9 @@ The following libraries are needed (just type the name in the Arduino IDE under 
 --- 
 ## Output file
 
-a .TSV file (tab-separated file) with each rown containing date, time, irradiance from module 1 and 2, battery SoC, and various other parameters. You can use the Excel template to get a good quick look of the obtained data, just copy-paste the relevant columns into the template.
+a .TSV file (tab-separated file, ex: IRR001.tsv) with each rown containing date, time, irradiance from module 1 and 2, battery SoC, and various other parameters. You can use the Excel template to get a good quick look of the obtained data, just copy-paste the relevant columns into the template.
 
-The obtained power logged as P1 and P2 is the irradiance in [W/m2] computed based on the short circuit current **Isc** as a linear relationship between module current and sun irradiance. Thus, if Isc varies from the rating of the module at STC (1000W/m2, 25°C), You have to make sure to apply a coefficient to the obtained data.
+The obtained power logged as P1 and P2 is the irradiance in [W/m2] computed based on the short circuit current **Isc** as a linear relationship between module current and sun irradiance. **It does not account for any losses or other effect**. Thus, if Isc varies from the rating of the module at STC (1000W/m2, 25°C), You have to make sure to apply a coefficient to the obtained data.
 
 
 --- 
