@@ -96,3 +96,7 @@ The obtained power logged as P1 and P2 is the irradiance in [W/m2] computed base
 
 It is good to take into account some collection losses due to shadowing at low sun angles and MP voltage drop due to temperature. I tried to calibrate mine and compare with satellite irradiance values of [Solcast](https://www.solcast.com).
 I am taking 7% losses due to shading and 3% du to temperature losses, for a total of 10%.
+
+With the jupyter notebook file in this repo, you can also get the GHI of each daily file and output a graph like this:
+
+![IMS](/images/120520.png)
