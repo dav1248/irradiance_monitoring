@@ -19,7 +19,6 @@ Offline Irradiance Monitoring System working on Adafruit M0 Feather. The system 
 The system is able to log daily irradiance values as time series, while going to deep sleep at night. Without a PV power supply, the system should last around 4 to 5 days with a 2000mAh battery.
 
 
----
 
 ## How to build
 
@@ -39,7 +38,6 @@ The system uses the two 4W PV modules as the source of measurement (thus allowin
 
 I put everything into a waterproof plastic case, and built a support for the modules as you can see in the first picture.
 
----
 
 ## Code walkthrough
 
@@ -75,9 +73,8 @@ For each loop, the program will check if the current time is inside the sleep wi
 * save the computed values into the *.tsv* file
 * handles the OLED screen and buttons
 
-By using *millis()* as our main time management tool, we can therefore achieve a seemingly uninterrupted program that updates in real time the values into the SD card and on the OLED display while listening for buttons inputs.
+By using *millis()*, we get a seemingly uninterrupted program that updates in real time the values into the SD card and on the OLED display while listening for buttons inputs.
 
----
 
 ## Code Libraries
 
@@ -88,7 +85,6 @@ The following libraries are needed (just type the name in the Arduino IDE under 
 * Adafruit SSD1306 (OLED Display)
 
 
---- 
 ## Output file
 
 a .TSV file (tab-separated file, ex: IRR001.tsv) with each rown containing date, time, irradiance from module 1 and 2, battery SoC, and various other parameters. You can use the Excel template to get a good quick look of the obtained data, just copy-paste the relevant columns into the template.
@@ -96,7 +92,6 @@ a .TSV file (tab-separated file, ex: IRR001.tsv) with each rown containing date,
 The obtained power logged as P1 and P2 is the irradiance in [W/m2] computed based on the short circuit current **Isc** as a linear relationship between module current and sun irradiance. **It does not account for any losses or other effect**. Thus, if Isc varies from the rating of the module at STC (1000W/m2, 25°C), You have to make sure to apply a coefficient to the obtained data.
 
 
---- 
 ## Note on results
 
 It is good to take into account some collection losses due to shadowing at low sun angles and MP voltage drop due to temperature. I tried to calibrate mine and compare with satellite irradiance values of [Solcast](https://www.solcast.com).

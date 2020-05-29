@@ -3,7 +3,7 @@
 #include <Adafruit_SleepyDog.h>
 
 
-/************************* System *********************************/
+/************** System (modifiable parameters) *********************/
 #define vbat A7
 const int sampling_interval = 4000;
 const double isc_current= 0.72; // Amps
