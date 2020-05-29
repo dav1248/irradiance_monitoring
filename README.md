@@ -61,7 +61,7 @@ The *config.h* contains a few parameters that will influence the monitoring:
 
 #### setup()
 
-Nothing really relevant, maybe the initialisation of the SD card reader: the code looks at existing log files and creates a new one with an incremented number, before opening it to insert the headers.
+SD card reader: the code looks at existing log files and creates a new one with an incremented number, before opening it to insert the headers.
 
 #### loop()
 
@@ -87,7 +87,7 @@ The following libraries are needed (just type the name in the Arduino IDE under 
 
 ## Output file
 
-a .TSV file (tab-separated file, ex: IRR001.tsv) with each rown containing date, time, irradiance from module 1 and 2, battery SoC, and various other parameters. You can use the Excel template to get a good quick look of the obtained data, just copy-paste the relevant columns into the template.
+a daily .TSV file (tab-separated file, ex: IRR001.tsv) with each rown containing date, time, irradiance from module 1 and 2, battery SoC, and various other parameters. You can use the Excel template to get a good quick look of the obtained data, just copy-paste the relevant columns into the template. The system creates a new TSV file every day at midnight.
 
 The obtained power logged as P1 and P2 is the irradiance in [W/m2] computed based on the short circuit current **Isc** as a linear relationship between module current and sun irradiance. **It does not account for any losses or other effect**. Thus, if Isc varies from the rating of the module at STC (1000W/m2, 25°C), You have to make sure to apply a coefficient to the obtained data.
 

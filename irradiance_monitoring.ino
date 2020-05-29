@@ -111,7 +111,7 @@ void setup() {
   if (! rtc.initialized()) {
     Serial.println("RTC is NOT running!");
     // rtc.adjust(DateTime(F(__DATE__), F(__TIME__))); //can use this line to recalibrate date&time
-    //rtc.adjust(DateTime(2020, 1, 1, 23, 59, 50));    //to do so, remove the small battery 
+                                                       //to do so, uncomment the line and remove the small battery 
   }
   day0 = rtc.now().unixtime()/(24*60*60); // rtc snapshot of current day
 }
